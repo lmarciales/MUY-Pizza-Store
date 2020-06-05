@@ -9,6 +9,14 @@
   </div>
 </template>
 
+<script>
+import SideBrand from '@/components/SideBrand';
+
+export default {
+  components: { SideBrand }
+};
+</script>
+
 <style lang="scss">
 html,
 body {
@@ -28,9 +36,3 @@ body {
   }
 }
 </style>
-<script>
-import SideBrand from '@/components/SideBrand';
-export default {
-  components: { SideBrand }
-};
-</script>

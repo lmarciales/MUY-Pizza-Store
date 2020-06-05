@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-free/css/all.css';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Vue from 'vue';
