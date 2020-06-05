@@ -3,7 +3,7 @@
     <aside class="col-5 side-brand d-none d-md-flex">
       <side-brand></side-brand>
     </aside>
-    <section class="col-7">
+    <section class="col-12 col-md-7">
       <router-view />
     </section>
   </div>
