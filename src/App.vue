@@ -1,32 +1,38 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+  <div class="row no-gutters main-layout">
+    <aside class="col-5 side-brand d-none d-md-flex">
+      <side-brand></side-brand>
+    </aside>
+    <section class="col-12 col-md-7">
+      <router-view />
+    </section>
   </div>
 </template>
 
+<script>
+import SideBrand from '@/components/SideBrand';
+
+export default {
+  components: { SideBrand }
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+html,
+body {
+  height: 100%;
 }
 
-#nav {
-  padding: 30px;
+.main-layout {
+  height: 100%;
+  min-height: 100%;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  .side-brand {
+    flex-direction: column;
+    background-image: url('./assets/imagebkg.png');
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: left top;
   }
 }
 </style>
