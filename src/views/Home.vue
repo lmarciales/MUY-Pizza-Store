@@ -12,7 +12,7 @@
       </div>
       <span class="choose-store">Escoge tu pizzería favorita</span>
       <div class="store-list">
-        <div :key="store.id" class="pizza-store" v-for="store in storesFiltered">
+        <div :key="store.id" @click="showStoreDetail(store)" class="pizza-store" v-for="store in storesFiltered">
           <img :src="getImgUrl(store.img)" alt="" />
           <span class="store-title">{{ store.name }}</span>
           <span class="store-address">{{ store.address }}</span>
@@ -20,16 +20,37 @@
       </div>
     </section>
     <home-footer></home-footer>
+    <modal @close="showModal = false" v-if="showModal">
+      <h3 class="detail-title" slot="header">
+        {{ currentStoreDetail.name }}
+      </h3>
+      <div slot="body">
+        <p class="text-center">{{ currentStoreDetail.description }}</p>
+        <div class="mb-2"><strong>Buscanos en: </strong> {{ currentStoreDetail.address }}</div>
+        <div class="detail-products">
+          <img :src="getImgUrl(currentStoreDetail.imgProduct)" alt="" />
+          <div>
+            <strong>Nuestros productos:</strong>
+            <ul>
+              <li :key="product.id" v-for="product in currentStoreDetail.products">
+                {{ product.name }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </modal>
   </section>
 </template>
 
 <script>
 import HomeFooter from '@/components/Home/HomeFooter';
 import HomeHeader from '@/components/Home/HomeHeader';
+import Modal from '@/components/Home/Modal';
 
 export default {
   name: 'Home',
-  components: { HomeFooter, HomeHeader },
+  components: { Modal, HomeFooter, HomeHeader },
   data() {
     return {
       searchInput: '',
@@ -37,29 +58,37 @@ export default {
       imgStore: [
         {
           id: 1,
-          asset: 'Panos_pizza.png'
+          asset: 'Panos_pizza.png',
+          imgProduct: 'panos_pizza_1.png'
         },
         {
           id: 2,
-          asset: 'pizzeria_camion.png'
+          asset: 'pizzeria_camion.png',
+          imgProduct: 'pizzeria_camion_pizza.png'
         },
         {
           id: 3,
-          asset: 'Sbarro.png'
+          asset: 'Sbarro.png',
+          imgProduct: 'sbarro_pizza.png'
         },
         {
           id: 4,
-          asset: 'stroller_pizza.png'
+          asset: 'stroller_pizza.png',
+          imgProduct: 'stroller_pizza_1.png'
         },
         {
           id: 5,
-          asset: 'trulli.png'
+          asset: 'trulli.png',
+          imgProduct: 'trulli_pizza.png'
         },
         {
           id: 6,
-          asset: 'voglia_di_pizza.png'
+          asset: 'voglia_di_pizza.png',
+          imgProduct: 'vogliadipizza_pizza.png'
         }
-      ]
+      ],
+      currentStoreDetail: {},
+      showModal: false
     };
   },
   mounted() {
@@ -68,12 +97,18 @@ export default {
       this.stores.map((store) => {
         const tempStore = this.imgStore.find((img) => img.id === store.id);
         store.img = tempStore.asset;
+        store.imgProduct = tempStore.imgProduct;
       });
+      console.log(this.stores);
     });
   },
   methods: {
     getImgUrl(img) {
       return require('../assets/' + img);
+    },
+    showStoreDetail(store) {
+      this.showModal = true;
+      this.currentStoreDetail = store;
     }
   },
   computed: {
@@ -168,6 +203,11 @@ export default {
           font-size: 20px;
           font-weight: bold;
         }
+
+        .store-address {
+          font-size: 12px;
+          color: #8f8f8f;
+        }
       }
     }
 
@@ -190,6 +230,32 @@ export default {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
       }
+    }
+  }
+
+  .detail-title {
+    text-align: center;
+    color: #8f8f8f;
+    padding: 0 10px;
+
+    &:after {
+      content: ' ';
+      display: block;
+      margin: auto;
+      border-bottom: 4px solid #ffc857;
+      min-width: 225px;
+      max-width: 775px;
+    }
+  }
+
+  .detail-products {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+    img,
+    ul {
+      margin: auto;
     }
   }
 }
